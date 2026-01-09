@@ -1,5 +1,5 @@
 import React from 'react';
-import { Violation } from '../../services/proctoring';
+import type { Violation } from '../../services/proctoring';
 
 interface WarningModalProps {
     violation: Violation;

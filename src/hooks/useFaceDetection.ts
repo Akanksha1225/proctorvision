@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
-import { GazeData, FaceData, processFaceData, calculateGaze } from '../services/mediapipe';
+import type { GazeData, FaceData } from '../services/mediapipe';
+import { processFaceData, calculateGaze } from '../services/mediapipe';
 
 interface UseFaceDetectionResult {
     faceData: FaceData;

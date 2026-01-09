@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { FaceMesh } from '@mediapipe/face_mesh';
 import { Camera } from '@mediapipe/camera_utils';
 
@@ -85,7 +85,7 @@ export const WebcamCapture: React.FC<WebcamCaptureProps> = ({
                 setIsLoading(false);
                 setStatus('Camera ready');
             })
-            .catch((err) => {
+            .catch(() => {
                 setError('Camera access denied. Please allow camera permissions.');
                 setIsLoading(false);
             });
@@ -124,7 +124,7 @@ export const WebcamCapture: React.FC<WebcamCaptureProps> = ({
             <div className="webcam-hud-status">
                 <span
                     className={`status-dot ${status === 'Face detected' ? 'success' :
-                            status === 'No face' ? 'danger' : ''
+                        status === 'No face' ? 'danger' : ''
                         }`}
                 />
                 <span>{isLoading ? 'Loading...' : status}</span>

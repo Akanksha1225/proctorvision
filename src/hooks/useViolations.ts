@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef } from 'react';
-import { ViolationManager, ViolationType, Violation, VIOLATION_CONFIGS } from '../services/proctoring';
+import type { ViolationType, Violation } from '../services/proctoring';
+import { ViolationManager } from '../services/proctoring';
 
 interface UseViolationsResult {
     violations: Violation[];

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Violation, ViolationType, VIOLATION_CONFIGS } from '../../services/proctoring';
+import type { Violation, ViolationType } from '../../services/proctoring';
+import { VIOLATION_CONFIGS } from '../../services/proctoring';
 
 interface TerminationScreenProps {
     reason: ViolationType;
