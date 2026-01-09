@@ -1,73 +1,175 @@
-# React + TypeScript + Vite
+# ProctorVision — AI-Powered Exam Proctoring System
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Browser-based exam proctoring using computer vision for face detection, eye tracking, and attention monitoring — all processed locally for privacy.
 
-Currently, two official plugins are available:
+🌐 **Live Demo**: [proctorvision.vercel.app](https://proctorvision.vercel.app/)  
+📦 **GitHub**: [github.com/Akanksha1225/proctorvision](https://github.com/Akanksha1225/proctorvision)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Feature | Description |
+|---------|-------------|
+| **Face Detection** | Real-time face presence monitoring |
+| **Head Pose Tracking** | Detects if head turns left/right/up/down |
+| **Eye Gaze Tracking** | Ensures eyes are focused on screen |
+| **Tab Switch Detection** | Alerts when user leaves exam window |
+| **3-Strike Warning System** | Violations trigger warnings, 3rd = termination |
+| **Question Randomization** | Questions change on each violation |
+| **Attention Score** | Real-time 0-100 focus score |
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚨 Violation Detection
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+| Violation | Detection Method | Threshold |
+|-----------|-----------------|-----------|
+| **Head Left/Right** | Nose position relative to ears | Yaw > 0.25 |
+| **Looking Down** | Nose vertical position | Pitch > 0.3 |
+| **Eyes Off Screen** | Iris position in eye socket | Deviation > 0.4 |
+| **Face Absent** | No face landmarks detected | 3 seconds |
+| **Multiple Faces** | Face count > 1 | Immediate |
+| **Tab Switch** | Visibility API | Immediate |
+| **Window Blur** | Focus event | 3s debounce |
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🛠️ Tech Stack
+
+- **React 18 + TypeScript** — UI framework
+- **Vite** — Build tool
+- **MediaPipe Face Mesh** — 468 facial landmarks
+- **CSS Variables** — Dark theme design system
+
+---
+
+## 🚀 Quick Start
+
+```bash
+# Clone repository
+git clone https://github.com/Akanksha1225/proctorvision.git
+cd proctorvision
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📁 Project Structure
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+proctorvision/
+├── src/
+│   ├── App.tsx              # Main application
+│   ├── index.css            # Design system
+│   ├── components/
+│   │   ├── Exam/
+│   │   │   ├── AttentionMeter.tsx
+│   │   │   └── QuestionCard.tsx
+│   │   ├── Warnings/
+│   │   │   ├── Toast.tsx
+│   │   │   ├── WarningModal.tsx
+│   │   │   └── TerminationScreen.tsx
+│   │   └── Webcam/
+│   │       └── WebcamCapture.tsx
+│   ├── hooks/
+│   │   ├── useAttentionScore.ts
+│   │   ├── useFaceDetection.ts
+│   │   └── useViolations.ts
+│   └── services/
+│       ├── mediapipe.ts     # Face mesh utilities
+│       └── proctoring.ts    # Violation logic
+├── index.html
+├── package.json
+└── vite.config.ts
+```
+
+---
+
+## 🎨 UI Components
+
+### Landing Page
+- Eye icon with "ProctorVision" title
+- Feature cards explaining camera, eye tracking, tab detection
+- "3 Strikes Rule" explanation
+- "Start Demo Exam" button
+
+### Exam Interface
+- **Webcam HUD** — Bottom-right camera preview with face mesh overlay
+- **Attention Meter** — Top-right score display (0-100)
+- **Gaze Indicator** — Top-center 5-zone head pose indicator
+- **Question Card** — MCQ with A/B/C/D options
+- **Progress Bar** — Question progress indicator
+- **Timer** — 10-minute countdown
+
+### Warning Modal
+- Warning count (1/3, 2/3, 3/3)
+- Violation description
+- "I Understand" acknowledgment button
+- Final warning alert on 2nd violation
+
+### Termination Screen
+- Violation summary
+- Tab switch count
+- Final attention score
+- "Try Again" button
+
+---
+
+## 🔧 Configuration
+
+Key detection thresholds (in `App.tsx`):
+
+```typescript
+// Head pose thresholds
+const yawThreshold = 0.25;      // Left/right rotation
+const pitchThreshold = 0.3;     // Up/down tilt
+
+// Eye gaze thresholds
+const horizontalThreshold = 0.4;  // Left/right gaze
+const verticalThreshold = 0.3;    // Up/down gaze
+
+// Timing
+const violationDuration = 2500;   // ms before triggering warning
+const warningCooldown = 6000;     // ms between warnings
+const tabDebounce = 2000;         // ms debounce for tab switch
+```
+
+---
+
+## 🔐 Privacy
+
+- **100% Browser-Based** — No server processing
+- **No Data Stored** — All processing is real-time
+- **No External Requests** — MediaPipe models loaded from CDN
+- **Camera Never Recorded** — Video stream processed locally only
+
+---
+
+## 🎯 Use Cases
+
+- Online exam proctoring
+- Remote certification tests
+- Interview monitoring
+- Attention span research
+- Focus training tool
+
+---
+
+## 📄 License
+
+MIT License — Feel free to use and modify!
+
+---
+
+## 👤 Author
+
+**Akanksha** — [GitHub](https://github.com/Akanksha1225)
